@@ -22,8 +22,8 @@ boolean pendown = false;
 int pencolor; 
 
 // Number of columns and rows in our system
-final int cols = 25;
-final int rows = 25;
+final int cols = 16;
+final int rows = 16;
 
 final int guiWidth = 500;
 final int guiHeight = 150;
@@ -459,7 +459,7 @@ void mousePressed() {
       // Make a filename
       String fileName = "Animation " + year() + "-" + month() + "-" + day() + "_" + hour() + ":" + minute();
       // Now, call the loader object to actually save the animation.
-      loader.SaveAnimation("PeggyProgram/" + fileName, frames);
+      loader.SaveAnimation(frames);
     }
     else if( playButton.isSelected() ) {
       if (playing) {

@@ -87,28 +87,13 @@ class AnimationLoader
     return animation;
   }
   
-  void SaveAnimation(String filename, AnimationFrames animation) {
-    // File object to write to
-    PrintWriter output;
+  void SaveAnimation(AnimationFrames animation) {
 
-    println("Saving animation to: " + filename);
-    // Open the file for writing
-    output = createWriter(filename); 
-    
-    // First, write the header to the file
-    for (String line : header) {
-      output.println(line);
-    }
-    
-    // Maybe write out the number of frames here?
-    output.println("unsigned int frameCount=" + animation.getFrameCount() + ";");
-  
-    // Write out a definition for a big 2d array of frames
-    output.println("unsigned long frames[" + animation.getFrameCount() + "][25]={");
+
+    println("Saving animation");
 
     // Now, for each frame, write it's data as an array of longs.
     for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
-      output.print("{");
       
       // Load the frame data
       int data[] = animation.getFrame(frameNo).getFrameData();
@@ -118,7 +103,10 @@ class AnimationLoader
         print("Error! Data size isn't right!");
         return;
       }
-
+      
+      PImage img = createImage(16, 16, ALPHA);
+      img.loadPixels();
+      
       // Handle the frame data, row by row.
       for (int i = 0; i < rows; i++) {
         long rowData = 0;
@@ -126,33 +114,21 @@ class AnimationLoader
         for (int j = 0; j < cols; j++) {       
           if (data[i*cols + j] > 0)
           {
-            rowData += (1 << j);
+            img.pixels[i*cols + j] = color(255);
           }
         }
-        
-        output.print(rowData + ",");
       }
       
-      output.print("},\n");
+      img.updatePixels();
+      String filename = "animation/" + "frame" + (frameNo + 1) + ".png";
+      img.save(filename);
+
+      //output.print("},\n");
     }
 
-    // close the array
-    output.println("};");
+   
+    
+    
 
-    // Write out the durations to display each frame
-    output.print("unsigned long frameDurations[] = {");
-    for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
-      output.print(animation.getFrame(frameNo).getDuration() + ",");
-    }
-    output.print("};");
-    
-    // Now, write the footer to the file
-    for (String line : footer) {
-      output.println(line);
-    }
-    
-    // Finally, make sure the file data is written and close the file.
-    output.flush();
-    output.close();
   }
 }
