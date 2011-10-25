@@ -356,20 +356,8 @@ void mousePressed() {
     mxin =    floor( mouseX / cellSize);
     myin =    floor( mouseY / cellSize);
 
-    switch(currentFrame.getPixel(mxin, myin)) {
-       case 0:
-         pencolor = 1;
-         break;
-       case 1:
-         pencolor = 2;
-         break;
-       case 2:
-         pencolor = 3;
-         break;
-       case 3:
-         pencolor = 0;
-         break;
-    }
+    pencolor = currentFrame.getPixel(mxin, myin) + 1;
+    if (pencolor == 4) pencolor = 0;
 
     pendown = true;
   }
