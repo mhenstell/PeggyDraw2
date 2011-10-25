@@ -78,7 +78,7 @@ class AnimationLoader
       int duration = i;
       
       // Add the frame to the end of our animation
-      animation.addFrame(new AnimationFrame(cols, rows, frameData, duration), animation.getFrameCount());
+      //animation.addFrame(new AnimationFrame(cols, rows, frameData, duration), animation.getFrameCount());
      
       // For demonstration: advance to next fake frame
       i++;

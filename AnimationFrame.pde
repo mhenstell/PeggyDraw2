@@ -73,7 +73,8 @@ class AnimationFrame
   int width;
   int height;
   int duration;
-  int frameData[];
+  int frameDataRed[];
+  int frameDataGreen[];
   
   int defaultDuration = 100;
 
@@ -82,40 +83,78 @@ class AnimationFrame
     height = ref.height;
     duration = ref.duration;
     
-    this.frameData = ref.frameData.clone();
+    this.frameDataRed = ref.frameDataRed.clone();
+    this.frameDataGreen = ref.frameDataGreen.clone();
   }
   
-  AnimationFrame(int width, int height, int[] frameData, int duration) {
-    if (width * height != frameData.length) {
-      // error
-    }
-    
-    this.width = width;
-    this.height = height;
-    this.duration = duration;
-    
-    this.frameData = frameData.clone();
-  }
+//  AnimationFrame(int width, int height, int[] frameData, int duration) {
+//    if (width * height != frameData.length) {
+//      // error
+//    }
+//    
+//    this.width = width;
+//    this.height = height;
+//    this.duration = duration;
+//    
+//    this.frameData = frameData.clone();
+//  }
   
   AnimationFrame(int width, int height) {
     this.width = width;
     this.height = height;
     this.duration = defaultDuration;
     
-    frameData = new int[height*width];
-    preset(0);
+    frameDataRed = new int[height*width];
+    frameDataGreen = new int[height*width];
+    
+    presetRed(0);
+    presetGreen(0);
   }
   
   // TODO: is this a good thing to provide?
+  void presetRed(int value) {
+    for(int i = 0; i < height*width; i++) {
+      frameDataRed[i] = value;
+    }
+  }
+  
+  void presetGreen(int value) {
+    for(int i = 0; i < height*width; i++) {
+      frameDataGreen[i] = value;
+    }
+  }
+  
   void preset(int value) {
     for(int i = 0; i < height*width; i++) {
-      frameData[i] = value;
+      frameDataRed[i] = value;
+      frameDataGreen[i] = value;
     }
+  }
+  
+  int getPixelRed(int x, int y) {
+    if (x < width && y < height) {  
+      return frameDataRed[y*width+x];
+    }
+    
+    // out of bounds, just fail silently.
+    return 0;
+  }
+  
+  int getPixelGreen(int x, int y) {
+    if (x < width && y < height) {  
+      return frameDataGreen[y*width+x];
+    }
+    
+    // out of bounds, just fail silently.
+    return 0;
   }
   
   int getPixel(int x, int y) {
     if (x < width && y < height) {  
-      return frameData[y*width+x];
+      
+      int ret = frameDataRed[y*width+x] + ( 2 * frameDataGreen[y*width+x] );
+      
+      return ret;
     }
     
     // out of bounds, just fail silently.
@@ -125,8 +164,25 @@ class AnimationFrame
   void setPixel(int x, int y, int value) {
     // if we were out of bounds, just fail silently.
     if (x < width && y < height) {  
-      frameData[y*width+x] = value;
-    }
+      switch (value) {
+        case 0:
+          frameDataRed[y*width+x] = 0;
+          frameDataGreen[y*width+x] = 0;
+          break;
+        case 1:
+          frameDataRed[y*width+x] = 1;
+          frameDataGreen[y*width+x] = 0;
+          break;
+        case 2:
+          frameDataRed[y*width+x] = 0;
+          frameDataGreen[y*width+x] = 1;
+          break;
+        case 3:
+          frameDataRed[y*width+x] = 1;
+          frameDataGreen[y*width+x] = 1;
+          break;
+      }
+  }
   }
   
   int getDuration() {
@@ -138,6 +194,6 @@ class AnimationFrame
   }
   
   int[] getFrameData() {
-    return (int[])frameData.clone();
+    return (int[])frameDataRed.clone();
   }
 }

@@ -17,6 +17,9 @@ int DataX,DataY;               // Offset to draw the data display at
 
 int brightFillColor = 15;      // This is the color stored in the animation frame for 'on' pixels
 int dimFillColor = 3;          // This is the color stored in the animation frame for 'off' pixels
+int redFillColor = #FF0000;
+int greenFillColor = #00FF00;
+int yellowFillColor = #FFFF00;
 
 boolean pendown = false;
 int pencolor; 
@@ -175,10 +178,27 @@ void draw() {
   // Draw the current frame
   for ( i = 0; i < currentFrame.width; i++) {
     for ( j = 0; j < currentFrame.height; j++) {
-      if (currentFrame.getPixel(i, j) > 0)
-        fill(brightFillColor); 
-      else
-        fill(dimFillColor);
+      
+      
+//      if (currentFrame.getPixel(i, j) > 0)
+//        fill(brightFillColor); 
+//      else
+//        fill(dimFillColor);
+  
+      switch (currentFrame.getPixel(i, j)) {
+        case 0:
+          fill(dimFillColor);
+          break;
+        case 1:
+          fill(redFillColor);
+          break;
+        case 2:
+          fill(greenFillColor);
+          break;
+        case 3:
+          fill(yellowFillColor);
+          break;
+      }
 
       ellipse(i*cellSize + 1,  j*cellSize + 1, cellSize - 1 , cellSize- 1); 
     }
@@ -208,13 +228,8 @@ void draw() {
       text(myin, DataX + 20, DataY);
 
     // If the user has the mouse button pressed, do a drawing action
-    if(mousePressed && pendown)
-    {
-      if (pencolor == brightFillColor)
-        currentFrame.setPixel(mxin, myin, brightFillColor);
-      else
-        currentFrame.setPixel(mxin, myin, 0);
-    }
+    if(mousePressed && pendown) currentFrame.setPixel(mxin, myin, pencolor);
+
   }
 
   // Display the PeggyDraw logo
@@ -341,12 +356,20 @@ void mousePressed() {
     mxin =    floor( mouseX / cellSize);
     myin =    floor( mouseY / cellSize);
 
-    // if the dot is already in our color
-    if (currentFrame.getPixel(mxin, myin) == brightFillColor)
-      //   if (true)  // if the dot is already in our color
-      pencolor = dimFillColor;        // We're erasing
-    else
-      pencolor = brightFillColor;     // We're drawing  
+    switch(currentFrame.getPixel(mxin, myin)) {
+       case 0:
+         pencolor = 1;
+         break;
+       case 1:
+         pencolor = 2;
+         break;
+       case 2:
+         pencolor = 3;
+         break;
+       case 3:
+         pencolor = 0;
+         break;
+    }
 
     pendown = true;
   }
