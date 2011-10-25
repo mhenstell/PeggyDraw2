@@ -82,11 +82,7 @@ class AnimationFrame
     height = ref.height;
     duration = ref.duration;
     
-    // TODO: any better way to do this? (yes, clone)
-    frameData = new int[height*width];
-    for (int i = 0; i < height*width; i++) {
-      frameData[i] = ref.frameData[i];
-    }
+    this.frameData = ref.frameData.clone();
   }
   
   AnimationFrame(int width, int height, int[] frameData, int duration) {
