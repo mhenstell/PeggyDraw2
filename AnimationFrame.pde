@@ -151,10 +151,7 @@ class AnimationFrame
   
   int getPixel(int x, int y) {
     if (x < width && y < height) {  
-      
-      int ret = frameDataRed[y*width+x] + ( 2 * frameDataGreen[y*width+x] );
-      
-      return ret;
+      return frameDataRed[y*width+x] + ( 2 * frameDataGreen[y*width+x] );
     }
     
     // out of bounds, just fail silently.
@@ -182,7 +179,7 @@ class AnimationFrame
           frameDataGreen[y*width+x] = 1;
           break;
       }
-  }
+    }
   }
   
   int getDuration() {
@@ -195,5 +192,13 @@ class AnimationFrame
   
   int[] getFrameData() {
     return (int[])frameDataRed.clone();
+  }
+  
+  int[] getRedFrameData() {
+     return (int[]) frameDataRed.clone();
+  }
+  
+  int[] getGreenFrameData() {
+     return (int[]) frameDataGreen.clone();
   }
 }
