@@ -22,8 +22,8 @@ boolean pendown = false;
 int pencolor; 
 
 // Number of columns and rows in our system
-final int cols = 25;
-final int rows = 25;
+final int cols = 8;
+final int rows = 8;
 
 final int guiWidth = 500;
 final int guiHeight = 150;
@@ -400,11 +400,14 @@ void mousePressed() {
       int duration = frames.getCurrentFrame().getDuration();
       
       // Create the new frame
-      AnimationFrame newFrame = new AnimationFrame(cols, rows);
+      //AnimationFrame newFrame = new AnimationFrame(cols, rows);
+      AnimationFrame newFrame = new AnimationFrame(frames.getCurrentFrame());
       newFrame.setDuration(duration);
       
       // Then add it
       frames.addFrame(newFrame, frames.getCurrentPosition());
+      
+      frames.setCurrentPosition(frames.getCurrentPosition() + 1);
     }
     else if( durationTypeButton.isSelected() ) {
       if (SteadyRate) {
