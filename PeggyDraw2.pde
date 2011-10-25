@@ -407,18 +407,9 @@ void mousePressed() {
       frames.setCurrentPosition(frames.getCurrentPosition() + 1);
     }
     else if( addButton.isSelected() ) {
-      // Store the current duration so that we can copy it to the new frame
-      int duration = frames.getCurrentFrame().getDuration();
       
-      // Create the new frame
-      //AnimationFrame newFrame = new AnimationFrame(cols, rows);
-      AnimationFrame newFrame = new AnimationFrame(frames.getCurrentFrame());
-      newFrame.setDuration(duration);
-      
-      // Then add it
-      frames.addFrame(newFrame, frames.getCurrentPosition());
-      
-      frames.setCurrentPosition(frames.getCurrentPosition() + 1);
+      dupeFrame();
+    
     }
     else if( durationTypeButton.isSelected() ) {
       if (SteadyRate) {
@@ -497,6 +488,42 @@ void mousePressed() {
       }
     }
   }
+}
+
+void dupeFrame() {
+  
+   int duration = frames.getCurrentFrame().getDuration();
+      
+   // Create the new frame
+   AnimationFrame newFrame = new AnimationFrame(frames.getCurrentFrame());
+   newFrame.setDuration(duration);
+      
+   // Then add it
+   frames.addFrame(newFrame, frames.getCurrentPosition());
+   frames.setCurrentPosition(frames.getCurrentPosition() + 1);
+      
+}
+
+void keyPressed() {
+  AnimationFrame currentFrame = frames.getCurrentFrame();
+  
+  if (keyCode == DOWN) {
+    dupeFrame();
+    currentFrame.shiftDown();
+  }
+  else if (keyCode == UP) {
+    dupeFrame();
+    currentFrame.shiftUp();
+  }
+  else if (keyCode == LEFT) {
+    dupeFrame();
+    currentFrame.shiftLeft();
+  }
+  else if (keyCode == RIGHT) {
+    dupeFrame();
+    currentFrame.shiftRight();
+  }
+  
 }
 
 void mouseReleased() {

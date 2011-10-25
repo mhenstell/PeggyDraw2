@@ -238,4 +238,53 @@ class AnimationFrame
   int[] getGreenFrameData() {
      return (int[]) frameDataGreen.clone();
   }
+  
+  void shiftUp() {
+    for (int x=0; x < cols; x++) {
+      for (int y=1; y < rows; y++) {
+        int value = getPixel(x, y);
+        setPixel(x, y-1, value);
+      } 
+      setPixel(x, rows-1, 0);
+    }
+  }
+  
+  void shiftDown() {
+   for (int x=cols-1; x >= 0; x--) {
+      for (int y=rows-1; y >= 0; y--) {
+        int value = getPixel(x, y);
+        setPixel(x, y+1, value);
+      } 
+      setPixel(x, 0, 0);
+    }
+  }
+  
+  void shiftLeft() {
+    
+    for (int x=1; x < cols; x++) {
+      for (int y=0; y < rows; y++) {
+        int value = getPixel(x, y);
+        setPixel(x-1, y, value);
+      }
+    }
+    for (int y=0; y < rows; y++) {
+      setPixel(cols-1, y, 0);
+    }
+  }
+  
+
+  
+  void shiftRight() {
+     for (int x=cols-1; x >= 0; x--) {
+      for (int y=rows-1; y >= 0; y--) {
+        int value = getPixel(x, y);
+         setPixel(x+1, y, value);
+      } 
+    }
+    for (int y=0; y < rows; y++) {
+      setPixel(0, y, 0);
+    }
+  }
+  
+  
 }
