@@ -64,6 +64,43 @@ class AnimationFrames
     }
   }
   
+  void presetRed(String redString) {
+    
+    redString = redString.replace("R", "");
+    int numFrames = redString.length() / (cols*rows);
+    println ("Number of frames: " + numFrames);
+    
+
+    
+    for (int x=0; x < numFrames; x++) {
+      //String frame = redString.substring(numFrames * (cols*rows), (numFrames * (cols*rows)) + (cols*rows));
+      println("Frame: " + x);
+      int beg = x * (cols*rows);
+      int end = (x * (cols*rows)) + (cols*rows);
+      String frameString = redString.substring(beg, end);
+      
+      AnimationFrame frame = new AnimationFrame(cols, rows);
+      
+      for (int i=0; i < cols; i++) {
+        for (int q=0; q < rows; q++) {
+          frame.setPixel(i, q, 1);
+        } 
+      }
+      
+      this.addFrame(frame, x);
+      this.setCurrentPosition(this.getCurrentPosition() + 1);
+
+    }    
+    
+    
+  }
+  
+  void presetGreen(String greenString) {
+    greenString = greenString.replace("G", "");
+    //println("Green: " + greenString);
+    
+  }
+  
   
 }
   

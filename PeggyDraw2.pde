@@ -459,8 +459,18 @@ void mousePressed() {
       updateFrameDuration(duration);
     }     
     else if( loadButton.isSelected() ) {
-      AnimationFrames newAnimation = loader.LoadAnimation("demo_load");
-      frames = newAnimation;
+      
+      String path = "/Users/max/Dropbox/Projects/PeggyDraw2/PeggyProgram/Animation2011-10-25_15:37ARRAY";
+      
+      File file = new File(path);
+      println("File Exists? " + file.exists());
+      
+      println(path);
+      AnimationFrames newAnimation = new AnimationFrames(cols, rows);
+      
+      loader.LoadAnimation(file);
+
+      //frames = newAnimation;
     }
     else if( saveButton.isSelected() ) {
       // Write to a new file in the PeggyProgram directory, using the current date and time for a name
