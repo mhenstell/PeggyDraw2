@@ -70,8 +70,7 @@ class AnimationLoader
       String strLine;
     
       while ((strLine = br.readLine()) != null) {
-        //println(strLine);
-        lines.add(strLine);
+        if (!strLine.contains("//") && strLine.length() > 1) lines.add(strLine);
       }
     
       in.close();
