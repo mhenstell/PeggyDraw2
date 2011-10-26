@@ -496,15 +496,13 @@ void mousePressed() {
 }
 
 void dupeFrame() {
-  
-   int duration = frames.getCurrentFrame().getDuration();
       
    // Create the new frame
    AnimationFrame newFrame = new AnimationFrame(frames.getCurrentFrame());
-   newFrame.setDuration(duration);
+   newFrame.setDuration(frames.getCurrentFrame().getDuration());
       
    // Then add it
-   frames.addFrame(newFrame, frames.getCurrentPosition());
+   frames.addFrame(newFrame, frames.getCurrentPosition() + 1);
    frames.setCurrentPosition(frames.getCurrentPosition() + 1);
    
    println("New frame at position " + frames.getCurrentPosition());
@@ -536,6 +534,10 @@ void keyPressed() {
       println("Frame position: " + frames.getCurrentPosition());
     }
     else dupeFrame(); 
+  }
+  else if (key == ENTER) {
+    dupeFrame();
+    frames.getCurrentFrame().preset(0);
   }
   
 }
