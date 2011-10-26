@@ -60,30 +60,42 @@ class AnimationLoader
     
     // Create a new animation
     AnimationFrames animation = new AnimationFrames(cols, rows);
-   
-    BufferedReader reader = createReader(file);
-    String line = "";
-    String redLine = null;
-    String greenLine = null;
     
+    ArrayList<String> lines = new ArrayList<String>();
     
-    while (line != null) {
-      try {
-        
-        line = reader.readLine();
-        if (line.contains("R")) redLine = line;
-        else if (line.contains("G")) greenLine = line;
-        
-      } catch (Exception e) {
-        //e.printStackTrace(); 
+    try {
+      FileInputStream fstream = new FileInputStream(file);
+      DataInputStream in = new DataInputStream(fstream);
+      BufferedReader br = new BufferedReader(new InputStreamReader(in));
+      String strLine;
+    
+      while ((strLine = br.readLine()) != null) {
+        //println(strLine);
+        lines.add(strLine);
       }
-    }
-   
-    //println("red: " + redLine);
-    //println("green: " + greenLine);
     
-    animation.presetRed(redLine);
-    //animation.presetGreen(greenLine);
+      in.close();
+    } catch (Exception e) {
+      println("Error: " + e.getMessage()); 
+    }
+    
+    for (String line : lines) {
+      
+      int frameData[] = new int[rows*cols];
+      
+      for (int x=0; x < rows*cols; x++) {
+        frameData[x] = Integer.parseInt(line.substring(x, x+1)); 
+      }
+      
+      //int pos = animation.getCurrentPosition();
+      int pos = lines.indexOf(line);
+      AnimationFrame newFrame = new AnimationFrame(cols, rows, frameData);
+      animation.addFrame(newFrame, pos);
+      
+      
+        
+    }
+    
     return animation;
   }
   
@@ -111,7 +123,7 @@ class AnimationLoader
       output.print("{");
       
       // Load the frame data
-      int data[] = animation.getFrame(frameNo).getRedFrameData();
+      int data[] = animation.getFrame(frameNo).getFrameData();
       
       // Make sure our frame is of the correct size
       if (rows*cols != data.length) {
@@ -138,43 +150,7 @@ class AnimationLoader
 
     // close the array
     output.println("};");
-
-
-    // Write out a definition for a big 2d array of frames
-    output.println("unsigned long greenFrames[" + animation.getFrameCount() + "][" + cols + "]={");
-
-    // Now, for each frame, write it's data as an array of longs.
-    for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
-      output.print("{");
-      
-      // Load the frame data
-      int data[] = animation.getFrame(frameNo).getGreenFrameData();
-      
-      // Make sure our frame is of the correct size
-      if (rows*cols != data.length) {
-        print("Error! Data size isn't right!");
-        return;
-      }
-
-      // Handle the frame data, row by row.
-      for (int i = 0; i < rows; i++) {
-        long rowData = 0;
-        
-        for (int j = 0; j < cols; j++) {       
-          if (data[i*cols + j] > 0)
-          {
-            rowData += (1 << j);
-          }
-        }
-        
-        output.print(rowData + ",");
-      }
-      
-      output.print("},\n");
-    }
-
-    // close the array
-    output.println("};");
+    
 
     // Write out the durations to display each frame
     output.print("unsigned long frameDurations[] = {");
@@ -193,30 +169,17 @@ class AnimationLoader
     output.close();
     
     
-    output = createWriter(filename + "ARRAY");
+    output = createWriter("PeggyProgram/array.txt");
     
-    output.print("R");
     // Now, for each frame, write it's data as an array of longs.
     for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
       // Load the frame data
-      int data[] = animation.getFrame(frameNo).getRedFrameData();
+      int data[] = animation.getFrame(frameNo).getFrameData();
       for (int pixel : data) {
         output.print(pixel); 
       }
+      output.print("\n");
     }
-    
-    output.println("");
-    output.print("G");
-     // Now, for each frame, write it's data as an array of longs.
-    for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
-      // Load the frame data
-      int data[] = animation.getFrame(frameNo).getGreenFrameData();
-      for (int pixel : data) {
-        output.print(pixel); 
-      }
-    }
-    
-
     
     output.flush();
     output.close();

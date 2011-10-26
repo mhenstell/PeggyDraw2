@@ -1,10 +1,12 @@
-/**
+ /**
  * PeggyDraw
  * v 2.0
  * by Windell H Oskay, Evil Mad Scientist Laboratories
  * portions by Matt Mets, http://cibomahto.com
  *  
  */
+
+import javax.swing.*; 
 
 AnimationFrames frames;        // Storage for our frame stack
 AnimationFrame copiedFrame;    // Reference to the copied frame
@@ -451,17 +453,19 @@ void mousePressed() {
     }     
     else if( loadButton.isSelected() ) {
       
-      String path = "/Users/max/Dropbox/Projects/PeggyDraw2/PeggyProgram/Animation2011-10-25_15:37ARRAY";
+      String path = "/Users/max/Documents/PeggyDraw2/PeggyProgram/array.txt";
       
+
       File file = new File(path);
       println("File Exists? " + file.exists());
       
-      println(path);
-      AnimationFrames newAnimation = new AnimationFrames(cols, rows);
+      //AnimationFrames newAnimation = new AnimationFrames(cols, rows);
       
-      loader.LoadAnimation(file);
+      AnimationFrames newAnimation = loader.LoadAnimation(file);
 
-      //frames = newAnimation;
+      frames = newAnimation;
+      
+      frames.setCurrentPosition(0);
     }
     else if( saveButton.isSelected() ) {
       // Write to a new file in the PeggyProgram directory, using the current date and time for a name
@@ -522,6 +526,10 @@ void keyPressed() {
   else if (keyCode == RIGHT) {
     dupeFrame();
     currentFrame.shiftRight();
+  }
+  
+  if (key == ' ') {
+   dupeFrame(); 
   }
   
 }
