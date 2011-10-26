@@ -477,7 +477,7 @@ void mousePressed() {
         outputDir.mkdirs();
       
       // Make a filename
-      String fileName = "Animation " + year() + "-" + month() + "-" + day() + "_" + hour() + ":" + minute();
+      String fileName = "Animation" + year() + "-" + month() + "-" + day() + "_" + hour() + ":" + minute();
       // Now, call the loader object to actually save the animation.
       loader.SaveAnimation("PeggyProgram/" + fileName, frames);
     }

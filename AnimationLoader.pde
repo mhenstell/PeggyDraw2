@@ -101,10 +101,12 @@ class AnimationLoader
   void SaveAnimation(String filename, AnimationFrames animation) {
     // File object to write to
     PrintWriter output;
-
-    println("Saving animation to: " + filename);
+    
+    String filenameExt = filename + ".pde";
+    
+    println("Saving animation to: " + filenameExt);
     // Open the file for writing
-    output = createWriter(filename); 
+    output = createWriter(filenameExt); 
     
     // First, write the header to the file
 //    for (String line : header) {
@@ -168,7 +170,7 @@ class AnimationLoader
     output.close();
     
     
-    output = createWriter("PeggyProgram/array.txt");
+    output = createWriter(filename + ".txt");
     
     // Now, for each frame, write it's data as an array of longs.
     for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
