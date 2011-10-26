@@ -202,7 +202,7 @@ void draw() {
           break;
       }
 
-      ellipse(i*cellSize + 1,  j*cellSize + 1, cellSize - 1 , cellSize- 1); 
+      rect(i*cellSize + 1,  j*cellSize + 1, cellSize - 1 , cellSize- 1); 
     }
   }
 
@@ -505,31 +505,35 @@ void dupeFrame() {
    // Then add it
    frames.addFrame(newFrame, frames.getCurrentPosition());
    frames.setCurrentPosition(frames.getCurrentPosition() + 1);
+   
+   println("New frame at position " + frames.getCurrentPosition());
       
 }
 
 void keyPressed() {
-  AnimationFrame currentFrame = frames.getCurrentFrame();
   
   if (keyCode == DOWN) {
-    dupeFrame();
+    AnimationFrame currentFrame = frames.getCurrentFrame();
     currentFrame.shiftDown();
   }
   else if (keyCode == UP) {
-    dupeFrame();
+    AnimationFrame currentFrame = frames.getCurrentFrame();
     currentFrame.shiftUp();
   }
   else if (keyCode == LEFT) {
-    dupeFrame();
+    AnimationFrame currentFrame = frames.getCurrentFrame();
     currentFrame.shiftLeft();
   }
   else if (keyCode == RIGHT) {
-    dupeFrame();
+    AnimationFrame currentFrame = frames.getCurrentFrame();
     currentFrame.shiftRight();
   }
   
   if (key == ' ') {
-    if (frames.getCurrentPosition() != frames.getFrameCount()) frames.setCurrentPosition(frames.getCurrentPosition()+1);
+    if (frames.getCurrentPosition() != frames.getFrameCount() - 1) {
+      frames.setCurrentPosition(frames.getCurrentPosition()+1);
+      println("Frame position: " + frames.getCurrentPosition());
+    }
     else dupeFrame(); 
   }
   
