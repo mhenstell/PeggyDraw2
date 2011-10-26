@@ -529,7 +529,8 @@ void keyPressed() {
   }
   
   if (key == ' ') {
-   dupeFrame(); 
+    if (frames.getCurrentPosition() != frames.getFrameCount()) frames.setCurrentPosition(frames.getCurrentPosition()+1);
+    else dupeFrame(); 
   }
   
 }
