@@ -371,7 +371,7 @@ void mousePressed() {
       currentFrame.preset(0);
     }
     else if( fillButton.isSelected() ) {
-      currentFrame.preset(brightFillColor);
+      currentFrame.preset(3);
     }
     else if( invertButton.isSelected() ) {
       // For each pixel in the frame, invert it...
