@@ -377,10 +377,11 @@ void mousePressed() {
       // For each pixel in the frame, invert it...
       for ( int i = 0; i < currentFrame.width; i++) {
         for ( int j = 0; j < currentFrame.height; j++) {
-          if (currentFrame.getPixel(i, j) > 0)
-            currentFrame.setPixel(i, j, 0);
-          else
-            currentFrame.setPixel(i, j, brightFillColor);
+          if (currentFrame.getPixel(i, j) == 1) currentFrame.setPixel(i, j, 2);
+          else if (currentFrame.getPixel(i, j) == 2) currentFrame.setPixel(i, j, 1);
+          //else if (currentFrame.getPixel(i, j) == 0) currentFrame.setPixel(i, j, 3);
+          //else if (currentFrame.getPixel(i, j) == 3) currentFrame.setPixel(i, j, 0);
+            
         }
       }
     }
