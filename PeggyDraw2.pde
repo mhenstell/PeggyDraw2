@@ -454,18 +454,15 @@ void mousePressed() {
     }     
     else if( loadButton.isSelected() ) {
       
-      String path = "/Users/max/Documents/PeggyDraw2/PeggyProgram/array.txt";
-      
+      String path = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/Animation2011-10-26_14/3.txt";
 
       File file = new File(path);
-      println("File Exists? " + file.exists());
-      
-      //AnimationFrames newAnimation = new AnimationFrames(cols, rows);
-      
-      AnimationFrames newAnimation = loader.LoadAnimation(file);
-
-      frames = newAnimation;
-      
+      if (!file.exists()) {
+        println("File " + file.getPath() + " does not exist.");
+        return;
+      }
+            
+      frames = loader.LoadAnimation(file);
       frames.setCurrentPosition(0);
     }
     else if( saveButton.isSelected() ) {
