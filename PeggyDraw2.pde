@@ -8,6 +8,8 @@
 
 import javax.swing.*; 
 
+String openPath = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/heart.txt";
+
 AnimationFrames frames;        // Storage for our frame stack
 AnimationFrame copiedFrame;    // Reference to the copied frame
 
@@ -230,7 +232,7 @@ void draw() {
       text(myin, DataX + 20, DataY);
 
     // If the user has the mouse button pressed, do a drawing action
-    if(mousePressed && pendown) currentFrame.setPixel(mxin, myin, pencolor);
+    if((mousePressed && pendown) || (keyPressed && pendown)) currentFrame.setPixel(mxin, myin, pencolor);
 
   }
 
@@ -453,10 +455,8 @@ void mousePressed() {
       updateFrameDuration(duration);
     }     
     else if( loadButton.isSelected() ) {
-      
-      String path = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/Animation2011-10-27_13:6.txt";
 
-      File file = new File(path);
+      File file = new File(openPath);
       if (!file.exists()) {
         println("File " + file.getPath() + " does not exist.");
         return;
@@ -524,6 +524,26 @@ void keyPressed() {
     AnimationFrame currentFrame = frames.getCurrentFrame();
     currentFrame.shiftRight();
   }
+  else if (keyCode == KeyEvent.VK_PAGE_UP) {
+    int currentPosition = frames.getCurrentPosition();
+    int frameCount = frames.getFrameCount();
+    
+    if (currentPosition < (frameCount - 5)) {
+      frames.setCurrentPosition(currentPosition + 5);
+    } else {
+      frames.setCurrentPosition(frameCount - 1); 
+    }
+  }
+  else if (keyCode == KeyEvent.VK_PAGE_DOWN) {
+    int currentPosition = frames.getCurrentPosition();
+    int frameCount = frames.getFrameCount();
+    
+    if (currentPosition > 5) {
+      frames.setCurrentPosition(currentPosition - 5); 
+    } else {
+      frames.setCurrentPosition(0); 
+    }
+  }
   
   if (key == ' ') {
     if (frames.getCurrentPosition() != frames.getFrameCount() - 1) {
@@ -535,6 +555,24 @@ void keyPressed() {
   else if (key == ENTER) {
     dupeFrame();
     frames.getCurrentFrame().preset(0);
+  }
+  else if (key == 'z') {
+    
+    int mxin, myin;
+    int x,y;
+
+    AnimationFrame currentFrame = frames.getCurrentFrame();
+
+    if ((mouseX > 0) && (mouseX < cols*cellSize) && (mouseY > 0) && (mouseY < rows*cellSize))
+    {  // i.e., if we clicked within the LED grid
+      mxin =    floor( mouseX / cellSize);
+      myin =    floor( mouseY / cellSize);
+      
+      pencolor = currentFrame.getPixel(mxin, myin) + 1;
+      if (pencolor == 4) pencolor = 0;
+
+      pendown = true;
+    }
   }
   
 }
