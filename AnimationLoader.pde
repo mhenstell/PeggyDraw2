@@ -117,10 +117,8 @@ class AnimationLoader
     output.println("unsigned int frameCount=" + animation.getFrameCount() + ";");
     
     // Write out a definition for a big 2d array of frames
-    output.println("uint8_t redFrames[" + animation.getFrameCount() + "][" + cols + "]={");
-    
+    output.println("unsigned int frames[" + animation.getFrameCount() + "][" + cols + "] PROGMEM = {");
 
-    
     // Now, for each frame, write it's data as an array of longs.
     for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
       output.print("{");
@@ -138,49 +136,9 @@ class AnimationLoader
         long rowData = 0;
         
         for (int j = 0; j < cols; j++) {       
-          if (data[i*cols + j] == 1 || data[i*cols + j] == 3)
-          {
-            rowData += (1 << j);
-          }
-        }     
-        output.print(rowData + ",");
-      }
-
-      output.print("},\n");
-    }
-    // close the array
-    output.println("};");
-    
-    
-    
-    
-    // Write out a definition for a big 2d array of frames
-    output.println("uint8_t greenFrames[" + animation.getFrameCount() + "][" + cols + "]={");
-    
-    // Load the frame data
-
-    
-    // Now, for each frame, write it's data as an array of longs.
-    for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
-      output.print("{");
-      
-      int data[] = animation.getFrame(frameNo).getFrameData();
+          if (data[i*cols + j] == 1 || data[i*cols + j] == 3) rowData |= (1 << (j + 8));
+          if (data[i*cols + j] == 2 || data[i*cols + j] == 3) rowData |= (1 << j);
           
-      // Make sure our frame is of the correct size
-      if (rows*cols != data.length) {
-        print("Error! Data size isn't right!");
-        return;
-      }
-
-      // Handle the frame data, row by row.
-      for (int i = 0; i < rows; i++) {
-        long rowData = 0;
-        
-        for (int j = 0; j < cols; j++) {       
-          if (data[i*cols + j] == 2 || data[i*cols + j] == 3)
-          {
-            rowData += (1 << j);
-          }
         }     
         output.print(rowData + ",");
       }
@@ -189,6 +147,9 @@ class AnimationLoader
     }
     // close the array
     output.println("};");
+    
+    
+    
     
 
     // Write out the durations to display each frame
