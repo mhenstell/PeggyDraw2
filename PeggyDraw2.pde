@@ -574,6 +574,33 @@ void keyPressed() {
       pendown = true;
     }
   }
+  else if (key == 'g') {
+    AnimationFrame currentFrame = frames.getCurrentFrame();
+   
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        if (currentFrame.getPixel(x, y) > 0) currentFrame.setPixel(x, y, 2);
+      }
+    }
+  }
+  else if (key == 'r') {
+    AnimationFrame currentFrame = frames.getCurrentFrame();
+   
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        if (currentFrame.getPixel(x, y) > 0) currentFrame.setPixel(x, y, 1);
+      }
+    }
+  }
+  else if (key == 'y') {
+    AnimationFrame currentFrame = frames.getCurrentFrame();
+   
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        if (currentFrame.getPixel(x, y) > 0) currentFrame.setPixel(x, y, 3);
+      }
+    }
+  }
   
 }
 
