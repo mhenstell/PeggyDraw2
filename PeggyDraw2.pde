@@ -454,7 +454,7 @@ void mousePressed() {
     }     
     else if( loadButton.isSelected() ) {
       
-      String path = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/Animation2011-10-26_14/3.txt";
+      String path = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/Animation2011-10-27_13:6.txt";
 
       File file = new File(path);
       if (!file.exists()) {

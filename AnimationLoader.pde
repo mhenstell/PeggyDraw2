@@ -115,15 +115,16 @@ class AnimationLoader
     
     // Maybe write out the number of frames here?
     output.println("unsigned int frameCount=" + animation.getFrameCount() + ";");
-  
+    
     // Write out a definition for a big 2d array of frames
-    output.println("unsigned long redFrames[" + animation.getFrameCount() + "][" + cols + "]={");
+    output.println("uint8_t redFrames[" + animation.getFrameCount() + "][" + cols + "]={");
+    
 
+    
     // Now, for each frame, write it's data as an array of longs.
     for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
       output.print("{");
       
-      // Load the frame data
       int data[] = animation.getFrame(frameNo).getFrameData();
       
       // Make sure our frame is of the correct size
@@ -137,18 +138,55 @@ class AnimationLoader
         long rowData = 0;
         
         for (int j = 0; j < cols; j++) {       
-          if (data[i*cols + j] > 0)
+          if (data[i*cols + j] == 1 || data[i*cols + j] == 3)
           {
             rowData += (1 << j);
           }
-        }
-        
+        }     
         output.print(rowData + ",");
       }
-      
+
       output.print("},\n");
     }
+    // close the array
+    output.println("};");
+    
+    
+    
+    
+    // Write out a definition for a big 2d array of frames
+    output.println("uint8_t greenFrames[" + animation.getFrameCount() + "][" + cols + "]={");
+    
+    // Load the frame data
 
+    
+    // Now, for each frame, write it's data as an array of longs.
+    for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
+      output.print("{");
+      
+      int data[] = animation.getFrame(frameNo).getFrameData();
+          
+      // Make sure our frame is of the correct size
+      if (rows*cols != data.length) {
+        print("Error! Data size isn't right!");
+        return;
+      }
+
+      // Handle the frame data, row by row.
+      for (int i = 0; i < rows; i++) {
+        long rowData = 0;
+        
+        for (int j = 0; j < cols; j++) {       
+          if (data[i*cols + j] == 2 || data[i*cols + j] == 3)
+          {
+            rowData += (1 << j);
+          }
+        }     
+        output.print(rowData + ",");
+      }
+
+      output.print("},\n");
+    }
     // close the array
     output.println("};");
     
