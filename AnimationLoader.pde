@@ -78,6 +78,8 @@ class AnimationLoader
       println("Error: " + e.getMessage()); 
     }
     
+    int pos = 0;
+    
     for (String line : lines) {
       
       int frameData[] = new int[rows*cols];
@@ -86,13 +88,10 @@ class AnimationLoader
         frameData[x] = Integer.parseInt(line.substring(x, x+1)); 
       }
       
-      //int pos = animation.getCurrentPosition();
-      int pos = lines.indexOf(line);
       AnimationFrame newFrame = new AnimationFrame(cols, rows, frameData);
       animation.addFrame(newFrame, pos);
       
-      
-        
+      pos++;
     }
     
     return animation;
@@ -153,7 +152,7 @@ class AnimationLoader
     
 
     // Write out the durations to display each frame
-    output.print("unsigned long frameDurations[] = {");
+    output.print("unsigned char frameDurations[] PROGMEM = {");
     for (int frameNo = 0; frameNo < animation.getFrameCount(); frameNo++) {
       output.print(animation.getFrame(frameNo).getDuration() + ",");
     }
