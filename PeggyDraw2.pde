@@ -8,7 +8,7 @@
 
 import javax.swing.*; 
 
-String openPath = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/heart.txt";
+String openPath = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/spiralsquare.txt";
 
 AnimationFrames frames;        // Storage for our frame stack
 AnimationFrame copiedFrame;    // Reference to the copied frame
@@ -600,6 +600,14 @@ void keyPressed() {
         if (currentFrame.getPixel(x, y) > 0) currentFrame.setPixel(x, y, 3);
       }
     }
+  }
+  else if (key == '.') {
+    if (frames.getCurrentPosition() < (frames.getFrameCount() - 1)) {
+      frames.setCurrentPosition(frames.getCurrentPosition() + 1);
+    }
+  }
+  else if (key == ',') {
+    if (frames.getCurrentPosition() > 0) frames.setCurrentPosition(frames.getCurrentPosition() -1);
   }
   
 }
