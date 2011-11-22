@@ -8,7 +8,7 @@
 
 import javax.swing.*; 
 
-String openPath = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/spiralsquare.txt";
+String openPath = "/Users/max/Documents/codeprojects/PeggyDraw2/PeggyProgram/main.txt";
 
 AnimationFrames frames;        // Storage for our frame stack
 AnimationFrame copiedFrame;    // Reference to the copied frame
